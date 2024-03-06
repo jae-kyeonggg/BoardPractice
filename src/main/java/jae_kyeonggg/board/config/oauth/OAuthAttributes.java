@@ -24,10 +24,10 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, Map<String, Object> attributes) {
-        if (registrationId.equals("sub")) {
+        if (registrationId.equals("google")) {
             return ofGoogle("sub", attributes);
         } else {
-            return ofGithub("github", attributes);
+            return ofGithub("id", attributes);
         }
     }
 
@@ -38,11 +38,16 @@ public class OAuthAttributes {
                 .name((String) attributes.get("name"))
                 .nickname((String) attributes.get("displayName"))
                 .email((String) attributes.get("email"))
-                .image((String) attributes.get("picture"))
                 .build();
     }
 
     public static OAuthAttributes ofGithub(String userNameAttributeName, Map<String, Object> attributes) {
-        return null;
+        return OAuthAttributes.builder()
+                .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .name((String) attributes.get("name"))
+                .nickname((String) attributes.get("login"))
+                .email((String) attributes.get("email"))
+                .build();
     }
 }
