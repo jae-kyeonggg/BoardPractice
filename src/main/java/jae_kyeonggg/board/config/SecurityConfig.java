@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -52,10 +53,10 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutSuccessUrl("/"))
                 .oauth2Login(oauth2 -> oauth2
-                        .authorizationEndpoint(
-                                authorizationEndpointConfig -> authorizationEndpointConfig
-                                        .baseUri("/login")
-                        )
+//                        .authorizationEndpoint(
+//                                authorizationEndpointConfig -> authorizationEndpointConfig
+//                                        .baseUri("/login")
+//                        )
                         .successHandler(new OAuth2UserSuccessHandler(authorityUtils))
                         .userInfoEndpoint(
                                 userInfoEndpointConfig -> userInfoEndpointConfig
@@ -63,6 +64,7 @@ public class SecurityConfig {
                         )
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(401);
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "인증되지 않은 사용자입니다.");
