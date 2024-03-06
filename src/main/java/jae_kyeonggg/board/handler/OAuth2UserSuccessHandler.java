@@ -28,27 +28,12 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
         String email = oAuth2User.getEmail();
-        List<Authority> authorities = authorityUtils.createAuthorities(email);
+        authorityUtils.createAuthorities(email);
 
-        redirect(request, response, email, authorities);
+        redirect(request, response);
     }
 
-    private void redirect(HttpServletRequest request, HttpServletResponse response, String email, List<Authority> authorities) throws IOException {
-        getRedirectStrategy().sendRedirect(request, response, createURI(email).toString());
-    }
-
-    private URI createURI(String email) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("email", email);
-
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8080)
-                .path("/")
-                .queryParams(queryParams)
-                .build()
-                .toUri();
+    private void redirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        getRedirectStrategy().sendRedirect(request, response, "/");
     }
 }
