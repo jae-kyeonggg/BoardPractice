@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                         .anyRequest().permitAll())
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/"))
+                        .logoutSuccessUrl("/home"))
                 .oauth2Login(oauth2 -> oauth2
 //                        .authorizationEndpoint(
 //                                authorizationEndpointConfig -> authorizationEndpointConfig
