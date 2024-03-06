@@ -1,7 +1,10 @@
 package jae_kyeonggg.board.controller;
 
+import jae_kyeonggg.board.config.oauth.LoginUser;
+import jae_kyeonggg.board.config.oauth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -13,8 +16,16 @@ public class ViewController {
         return "login";
     }
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home() {
         return "home";
+    }
+
+    @GetMapping("/")
+    public String afterLogin(Model model, @LoginUser SessionUser user) {
+        if (user != null) {
+            model.addAttribute("user", user);
+        }
+        return "main";
     }
 }

@@ -2,11 +2,14 @@ package jae_kyeonggg.board.service;
 
 import jae_kyeonggg.board.config.oauth.CustomAuthorityUtils;
 import jae_kyeonggg.board.config.oauth.OAuthAttributes;
+import jae_kyeonggg.board.config.oauth.dto.SessionUser;
 import jae_kyeonggg.board.domain.Authority;
 import jae_kyeonggg.board.domain.CustomOAuth2User;
 import jae_kyeonggg.board.domain.User;
 import jae_kyeonggg.board.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -18,11 +21,13 @@ import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
     private final CustomAuthorityUtils authorityUtils;
+    private final HttpSession session;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -38,6 +43,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         List<Authority> authorities = authorityUtils.createAuthorities(email);
         user.setRoles(authorities);
         userRepository.save(user);
+        session.setAttribute("user", new SessionUser(user));
 
         return new CustomOAuth2User(registrationId, originAttributes, authorities, email);
     }
