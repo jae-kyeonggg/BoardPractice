@@ -22,8 +22,9 @@ public class ViewController {
     }
 
     @GetMapping("/home")
-    public String home(@LoginUser SessionUser user) {
+    public String home(@LoginUser SessionUser user, Model model) {
         if (user != null) {
+            model.addAttribute("user", user);
             return "redirect:/";
         }
         return "home";
@@ -31,9 +32,10 @@ public class ViewController {
 
     @GetMapping("/")
     public String afterLogin(Model model, @LoginUser SessionUser user) {
-        if (user != null) {
-            model.addAttribute("user", user);
+        if (user == null) {
+            return "home";
         }
+        model.addAttribute("user", user);
         return "main";
     }
 

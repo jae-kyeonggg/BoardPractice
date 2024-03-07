@@ -6,7 +6,12 @@
 </head>
 <body>
 <h1>Home</h1>
-<a th:href="@{/login}"><h3>login</h3></a>
-<a th:href="@{/posts}"><h5>글 목록</h5></a>
+<div th:if="${(user == null)}">   <!--세션 미존재 시-->
+    <a th:href="@{/login}"><h3>login</h3></a>
+    <a th:href="@{/posts}"><h5>글 목록</h5></a>
+</div>
+<div th:if="${(user != null)}">   <!--세션 존재 시-->
+    <a th:href="@{/home}"></a>
+</div>
 </body>
 </html>
