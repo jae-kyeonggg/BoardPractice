@@ -35,7 +35,10 @@ public class ViewController {
     }
 
     @GetMapping("/posts/save")
-    public String write(Model model) {
+    public String write(Model model, @LoginUser SessionUser user) {
+        if (user != null) {
+            model.addAttribute("user", user);
+        }
         model.addAttribute("post", new Post());
         return "post-save";
     }
