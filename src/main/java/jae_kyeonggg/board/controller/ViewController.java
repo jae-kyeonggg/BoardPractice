@@ -22,7 +22,10 @@ public class ViewController {
     }
 
     @GetMapping("/home")
-    public String home() {
+    public String home(@LoginUser SessionUser user) {
+        if (user != null) {
+            return "redirect:/";
+        }
         return "home";
     }
 
