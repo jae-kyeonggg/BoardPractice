@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>글 등록</title>
+</head>
+<body>
+<h1>글 등록</h1>
+<form th:object="${post}">
+    <label for="title">제목:</label><br>
+    <input type="text" id="title" name="title" th:field="*{title}" required><br>
+    <label for="content">내용:</label><br>
+    <textarea id="content" name="content" th:field="*{content}" required></textarea><br>
+    <label for="writer">작성자:</label><br>
+    <input type="text" id="writer" name="writer" th:field="*{writer}" required><br><br>
+    <button id="postData">등록</button>
+</form>
+<script>
+    const $postDataButton = document.querySelector("#postData")
+    const postData = event => {
+        event.preventDefault();
+        fetch("/posts/write", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json; charset: UTF-8'
+            },
+            body: JSON.stringify({
+                title: document.querySelector('#title').value,
+                content: document.querySelector('#content').value,
+                writer: document.querySelector('#writer').value
+            })
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = "/";
+            } else {
+                console.error('글 등록에 실패하였습니다.');
+            }
+        }).catch(error => {
+            console.error('네트워크 에러:', error);
+        });
+    }
+    $postDataButton.addEventListener("click", postData);
+</script>
+</body>
+</html>

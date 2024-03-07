@@ -7,8 +7,9 @@
 <body>
 <a th:href="@{/home}">home</a>
 <br>
-<!--    <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>{{#userName}}-->
 Logged in as: <span th:text="${user.name}"></span>
 <a href="/logout" class="btn btn-info active" role="button">&nbspLogout</a>
+<br>
+<a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
 </body>
 </html>

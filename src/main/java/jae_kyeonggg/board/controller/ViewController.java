@@ -2,6 +2,7 @@ package jae_kyeonggg.board.controller;
 
 import jae_kyeonggg.board.config.oauth.LoginUser;
 import jae_kyeonggg.board.config.oauth.dto.SessionUser;
+import jae_kyeonggg.board.domain.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,5 +28,11 @@ public class ViewController {
             model.addAttribute("user", user);
         }
         return "main";
+    }
+
+    @GetMapping("/posts/save")
+    public String write(Model model) {
+        model.addAttribute("post", new Post());
+        return "post-save";
     }
 }
