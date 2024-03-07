@@ -8,25 +8,30 @@
 <a th:href="@{/home}">home</a>
 <br>
 <h1>Posts</h1>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Writer</th>
-        <th>Views</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="post : ${posts}">
-        <td th:text="${post.id}"></td>
-        <td th:text="${post.title}"></td>
-        <td th:text="${post.content}"></td>
-        <td th:text="${post.writer}"></td>
-        <td th:text="${post.views}"></td>
-    </tr>
-    </tbody>
-</table>
+<div th:if="${posts.size() == 0}">
+    <p>아무 글도 없습니다.</p>
+</div>
+<div th:if="${posts.size() != 0}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Writer</th>
+            <th>Views</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.content}"></td>
+            <td th:text="${post.writer}"></td>
+            <td th:text="${post.views}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
