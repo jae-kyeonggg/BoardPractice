@@ -7,7 +7,8 @@
 <body>
 <a th:href="@{/home}">home</a>
 <br>
-Logged in as: <span th:text="${user.name}"></span>
+Logged in as: <span th:text="${user.name}"></span>&nbsp
+닉네임: <span th:text="${user.nickname}"></span>&nbsp
 <a href="/logout" class="btn btn-info active" role="button">&nbspLogout</a>
 <br>
 <br>
