@@ -46,10 +46,10 @@ public class SecurityConfig {
                 )
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/sign-up", "/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/", "/home", "/sign-up", "/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                        .anyRequest().permitAll())
+                        .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/home"))
                 .oauth2Login(oauth2 -> oauth2
