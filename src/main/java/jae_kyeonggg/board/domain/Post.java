@@ -8,7 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity @Getter @Builder
 @AllArgsConstructor
 @Table(name = "posts")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Post extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
