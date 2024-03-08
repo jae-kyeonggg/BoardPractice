@@ -53,4 +53,10 @@ public class ViewController {
         model.addAttribute("posts", postService.findAll(descending));
         return "post-list";
     }
+
+    @GetMapping("/mypage/edit")
+    public String editProfile(Model model, @LoginUser SessionUser user) {
+        model.addAttribute("user", user);
+        return "edit";
+    }
 }
