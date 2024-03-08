@@ -7,7 +7,7 @@
 <body>
 <a th:href="@{/home}">home</a>
 <br>
-Logged in as: <span th:text="${user.name}"></span>&nbsp
+Logged in as: <span th:text="${user.name}" th:onclick="'window.location.href=\'/mypage/edit\''"></span>&nbsp
 닉네임: <span th:text="${user.nickname}"></span>&nbsp
 <a href="/logout" class="btn btn-info active" role="button">&nbspLogout</a>
 <br>
