@@ -31,6 +31,7 @@
             })
         }).then(response => {
             if (response.ok) {
+                alert('글이 등록되었습니다.');
                 window.location.href = "/";
             } else {
                 console.error('글 등록에 실패하였습니다.');
