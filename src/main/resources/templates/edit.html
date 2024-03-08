@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>정보 수정</title>
+</head>
+<body>
+<h1>정보 수정</h1>
+<form th:object="${user}">
+    <input type="hidden" id="userId" th:value="*{userId}">
+    <label for="email">이메일 (수정 불가):</label><br>
+    <input type="text" id="email" name="email" th:field="*{email}" readonly><br>
+    <label for="name">이름:</label><br>
+    <input type="text" id="name" name="name" th:field="*{name}"><br>
+    <label for="nickname">닉네임:</label><br>
+    <input type="text" id="nickname" name="nickname" th:field="*{nickname}"><br><br>
+    <button id="editButton">등록</button>
+    <a th:href="@{/home}">Home</a>
+</form>
+<script>
+    const $editButton = document.querySelector("#editButton")
+    const data = event => {
+        event.preventDefault();
+        const userId = document.querySelector('#userId').value;
+        fetch(`/user/edit/${userId}`, {
+            method: 'patch',
+            headers: {
+                'Content-Type': 'application/json; charset: UTF-8'
+            },
+            body: JSON.stringify({
+                name: document.querySelector('#name').value,
+                nickname: document.querySelector('#nickname').value
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('수정이 완료되었습니다.');
+                window.location.href = "/";
+            } else {
+                console.error('수정에 실패하였습니다.');
+            }
+        }).catch(error => {
+            console.error('네트워크 에러:', error);
+        });
+    }
+    $editButton.addEventListener("click", data);
+</script>
+</body>
+</html>
