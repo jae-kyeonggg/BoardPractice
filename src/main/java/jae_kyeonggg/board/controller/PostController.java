@@ -53,12 +53,6 @@ public class PostController {
         return ResponseEntity.ok().body(new Result<>(findResult, findResult.size()));
     }
 
-    @Operation(summary = "모든 글 조회", description = "descending = true 면 최신순, false 면 오래된순")
-    @GetMapping("/posts/list")
-    public List<Post> findAll(@RequestParam(name = "descending") Boolean descending) {
-        return postService.findAll(descending);
-    }
-
     @Getter
     @Setter
     public static class Result<T> {
