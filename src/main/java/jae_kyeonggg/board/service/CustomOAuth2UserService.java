@@ -57,7 +57,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .orElse(User.builder()
                         .email(email)
                         .name(attributes.getName())
-                        .nickname(attributes.getNickname())
+                        .nickname(attributes.getNickname() == null ? attributes.getEmail() : attributes.getNickname())  //닉네임이 없는 사용자는 가입 시 닉네임이 이메일로 대체되게 함
                         .build());
         return userRepository.save(user);
     }
