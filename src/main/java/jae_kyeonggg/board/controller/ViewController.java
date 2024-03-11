@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -58,5 +59,11 @@ public class ViewController {
     public String editProfile(Model model, @LoginUser SessionUser user) {
         model.addAttribute("user", user);
         return "edit";
+    }
+
+    @GetMapping("/posts/{postId}")
+    public String postDetail(Model model, @PathVariable("postId") Long postId) {
+        model.addAttribute("detail", postService.getDetail(postId));
+        return "post-detail";
     }
 }
