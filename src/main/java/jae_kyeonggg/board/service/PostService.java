@@ -47,8 +47,8 @@ public class PostService {
     }
 
     public GetPostResponse getDetail(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(IllegalArgumentException::new);
         postRepository.increaseViews(postId);
+        Post post = postRepository.findById(postId).orElseThrow(IllegalArgumentException::new);
         GetPostResponse response = GetPostResponse.builder()
                 .id(postId)
                 .title(post.getTitle())
