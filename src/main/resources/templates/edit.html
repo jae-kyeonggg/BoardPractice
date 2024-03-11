@@ -5,6 +5,7 @@
     <title>정보 수정</title>
 </head>
 <body>
+<a th:href="@{/home}">home</a>
 <h1>정보 수정</h1>
 <form th:object="${user}" id="editForm">
     <input type="hidden" id="userId" name="userId" th:value="*{userId}">
@@ -15,7 +16,6 @@
     <label for="nickname">닉네임:</label><br>
     <input type="text" id="nickname" name="nickname" th:field="*{nickname}"><br><br>
     <button id="editButton" type="button" onclick="formToJson()">수정</button>
-    <a th:href="@{/home}">Home</a>
 </form>
 <script th:inline="javascript">
     function formToJson() {
