@@ -2,7 +2,7 @@ package jae_kyeonggg.board.domain.dto.response;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter @Builder
 @NoArgsConstructor
@@ -14,6 +14,6 @@ public class GetPostResponse {
     private String content;
     private String writer;
     private int views;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
 }
