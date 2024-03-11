@@ -74,9 +74,9 @@ public class ViewController {
     }
 
     @GetMapping("/posts/filter")
-    public String getByWriter(Model model, @RequestParam(value = "writer") String writer) {
+    public String getByWriter(Model model, @RequestParam(value = "writer") String writer, @LoginUser SessionUser user) {
         model.addAttribute("writer", writer);
-        model.addAttribute("posts", postService.getByWriter(writer));
+        model.addAttribute("posts", postService.findByUserId(user.getUserId()));
         return "post-writer";
     }
 }

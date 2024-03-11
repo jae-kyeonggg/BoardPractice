@@ -9,4 +9,5 @@ public class SavePostInfo {
     private String title;
     private String content;
     private String writer;
+    private Long userId;
 }

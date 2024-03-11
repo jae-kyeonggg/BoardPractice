@@ -10,9 +10,10 @@ public class SavePostRequest {
     private String title;
     private String content;
     private String writer;
+    private Long userId;
 
     public SavePostInfo toDomain() {
-        return new SavePostInfo(title, content, writer);
+        return new SavePostInfo(title, content, writer, userId);
     }
 
 }

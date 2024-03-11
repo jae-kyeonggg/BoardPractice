@@ -26,6 +26,7 @@ public class PostService {
                 .title(savePostInfo.getTitle())
                 .content(savePostInfo.getContent())
                 .writer(savePostInfo.getWriter())
+                .userId(savePostInfo.getUserId())
                 .build());
         return savedPost.getId();
     }
@@ -67,5 +68,9 @@ public class PostService {
 
     public List<Post> findAll(Boolean descending) {
         return descending ? postRepository.findAllByOrderByCreatedAtDesc() : postRepository.findAllByOrderByCreatedAtAsc();
+    }
+
+    public List<Post> findByUserId(Long userId) {
+        return postRepository.findByUserId(userId);
     }
 }

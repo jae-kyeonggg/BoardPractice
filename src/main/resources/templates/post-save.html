@@ -14,6 +14,7 @@
     <textarea id="content" name="content" th:field="*{content}" required></textarea><br>
     <label for="writer">작성자:</label><br>
     <input type="text" id="writer" name="writer" th:value="${user.name}" readonly><br><br>
+    <input type="hidden" id="userId" name="userId" th:value="${user.userId}">
     <button id="postButton">등록</button>
 </form>
 <script>
@@ -28,7 +29,8 @@
             body: JSON.stringify({
                 title: document.querySelector('#title').value,
                 content: document.querySelector('#content').value,
-                writer: document.querySelector('#writer').value
+                writer: document.querySelector('#writer').value,
+                userId: document.querySelector('#userId').value
             })
         }).then(response => {
             if (response.ok) {

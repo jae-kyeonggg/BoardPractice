@@ -20,6 +20,7 @@ public class Post extends BaseTimeEntity {
     private String writer;
     @ColumnDefault("0")
     private int views;
+    private Long userId;
 
     public void edit(String title, String content) {
         this.title = title;
