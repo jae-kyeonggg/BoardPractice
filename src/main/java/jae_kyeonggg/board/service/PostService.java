@@ -61,10 +61,6 @@ public class PostService {
         return response;
     }
 
-    public List<Post> getByWriter(String writer) {
-        return postRepository.findByWriter(writer);
-    }
-
     public List<Post> getByKeyword(String keyword) {
         return postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
     }

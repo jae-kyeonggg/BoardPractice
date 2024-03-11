@@ -5,7 +5,6 @@ import jae_kyeonggg.board.domain.Post;
 import jae_kyeonggg.board.domain.dto.request.EditPostRequest;
 import jae_kyeonggg.board.domain.dto.request.SavePostRequest;
 import jae_kyeonggg.board.domain.dto.response.EditPostResponse;
-import jae_kyeonggg.board.domain.dto.response.GetPostResponse;
 import jae_kyeonggg.board.service.PostService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +37,6 @@ public class PostController {
     @GetMapping("/posts/search")
     public ResponseEntity<Result<List<Post>>> search(@RequestParam(name = "keyword") String keyword) {
         List<Post> findResult = postService.getByKeyword(keyword);
-        return ResponseEntity.ok().body(new Result<>(findResult, findResult.size()));
-    }
-
-    @Operation(summary = "유저별 게시글 조회")
-    @GetMapping("/posts/find")
-    public ResponseEntity<Result<List<Post>>> findByUsername(@RequestParam(name = "writer") String name) {
-        List<Post> findResult = postService.getByWriter(name);
         return ResponseEntity.ok().body(new Result<>(findResult, findResult.size()));
     }
 

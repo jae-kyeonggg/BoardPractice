@@ -18,9 +18,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("UPDATE Post p SET p.views = p.views + 1 WHERE p.id = :postId")
     void increaseViews(@Param("postId") Long postId);
 
-    List<Post> findByWriter(String writer);
-
     List<Post> findAllByOrderByCreatedAtDesc();
 
     List<Post> findAllByOrderByCreatedAtAsc();
+
+    List<Post> findByUserId(Long userId);
 }
