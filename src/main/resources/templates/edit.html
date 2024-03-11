@@ -6,43 +6,40 @@
 </head>
 <body>
 <h1>정보 수정</h1>
-<form th:object="${user}">
-    <input type="hidden" id="userId" th:value="*{userId}">
+<form th:object="${user}" id="editForm">
+    <input type="hidden" id="userId" name="userId" th:value="*{userId}">
     <label for="email">이메일 (수정 불가):</label><br>
     <input type="text" id="email" name="email" th:field="*{email}" readonly><br>
     <label for="name">이름:</label><br>
     <input type="text" id="name" name="name" th:field="*{name}"><br>
     <label for="nickname">닉네임:</label><br>
     <input type="text" id="nickname" name="nickname" th:field="*{nickname}"><br><br>
-    <button id="editButton">등록</button>
+    <button id="editButton" type="button" onclick="formToJson()">수정</button>
     <a th:href="@{/home}">Home</a>
 </form>
-<script>
-    const $editButton = document.querySelector("#editButton")
-    const data = event => {
-        event.preventDefault();
-        const userId = document.querySelector('#userId').value;
-        fetch(`/user/edit/${userId}`, {
-            method: 'patch',
-            headers: {
-                'Content-Type': 'application/json; charset: UTF-8'
-            },
-            body: JSON.stringify({
-                name: document.querySelector('#name').value,
-                nickname: document.querySelector('#nickname').value
-            })
-        }).then(response => {
-            if (response.ok) {
-                alert('수정이 완료되었습니다.');
-                window.location.href = "/";
+<script th:inline="javascript">
+    function formToJson() {
+        var userId = document.getElementById('userId').value;
+        var form = new FormData(document.getElementById('editForm'));
+        var jsonData = {
+            name: form.get('name'),
+            nickname: form.get('nickname')
+        };
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/user/edit/' + userId);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                alert('수정이 성공했습니다.');
             } else {
-                console.error('수정에 실패하였습니다.');
+                alert('수정이 실패했습니다.');
+                console.error('요청이 실패하거나 오류가 발생했습니다.');
+                console.error('상태 코드:', xhr.status);
             }
-        }).catch(error => {
-            console.error('네트워크 에러:', error);
-        });
+        };
+        xhr.send(JSON.stringify(jsonData));
+
     }
-    $editButton.addEventListener("click", data);
 </script>
 </body>
 </html>
