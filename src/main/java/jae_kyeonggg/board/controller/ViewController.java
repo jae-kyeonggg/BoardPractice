@@ -66,4 +66,11 @@ public class ViewController {
         model.addAttribute("detail", postService.getDetail(postId));
         return "post-detail";
     }
+
+    @GetMapping("/posts/filter")
+    public String getByWriter(Model model, @RequestParam(value = "writer") String writer) {
+        model.addAttribute("writer", writer);
+        model.addAttribute("posts", postService.getByWriter(writer));
+        return "post-writer";
+    }
 }

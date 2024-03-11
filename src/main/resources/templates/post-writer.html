@@ -2,24 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>글 목록</title>
+    <title th:text="${writer + '의 작성글'}"></title>
 </head>
 <body>
 <a th:href="@{/home}">home</a>
 <br>
-<h1>Posts</h1>
+<h1 th:text="${writer + '의 작성글'}"></h1>
 <div th:if="${posts.size() == 0}">
-    <p>아무 글도 없습니다.</p>
+    <p>작성한 게시글이 없습니다.</p>
 </div>
 <div th:if="${posts.size() != 0}">
     <table>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Writer</th>
-            <th>Views</th>
+            <th>id</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>작성자</th>
+            <th>조회수</th>
         </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
             <td th:text="${post.id}"></td>
             <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
             <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.content}"></a></td>
-            <td><a th:href="@{/posts/filter(writer=${post.writer})}" th:text="${post.writer}"></a></td>
+            <td th:text="${post.writer}"></td>
             <td th:text="${post.views}"></td>
         </tr>
         </tbody>
