@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+<a th:href="@{/home}">home</a>
+<h1 th:text="${user.name + '의 마이페이지'}"></h1>
+이메일: <span th:text="${user.email}"></span><br>
+이름: <span th:text="${user.name}"></span><br>
+닉네임: <span th:text="${user.nickname}"></span>
+<br>
+<br>
+<button id="mypage" th:onclick="'window.location.href=\'/mypage/edit\''">정보 수정</button>
+<br>
+<form th:action="@{'/posts/filter'}" method="get">
+    <input type="hidden" name="writer" th:value="${user.name}" />
+    <button type="submit">작성글 보기</button>
+</form>
+</body>
+</html>

@@ -55,6 +55,12 @@ public class ViewController {
         return "post-list";
     }
 
+    @GetMapping("/mypage")
+    public String myPage(Model model, @LoginUser SessionUser user) {
+        model.addAttribute("user", user);
+        return "mypage";
+    }
+
     @GetMapping("/mypage/edit")
     public String editProfile(Model model, @LoginUser SessionUser user) {
         model.addAttribute("user", user);
