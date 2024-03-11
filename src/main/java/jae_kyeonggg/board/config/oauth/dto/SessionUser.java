@@ -19,4 +19,9 @@ public class SessionUser implements Serializable {
         this.email = user.getEmail();
         this.nickname = user.getNickname();
     }
+
+    public void setNameAndNicknameByDb(String dbName, String dbNickname) {
+        this.name = dbName;
+        this.nickname = dbNickname;
+    }
 }
