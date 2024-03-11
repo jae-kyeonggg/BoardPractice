@@ -33,11 +33,6 @@ public class PostController {
         return ResponseEntity.ok().body(postService.edit(postId, request.toDomain()));
     }
 
-    @Operation(summary = "게시글 단건 조회")
-    @GetMapping("/posts/{id}")
-    public ResponseEntity<GetPostResponse> getDetail(@PathVariable(name = "id") Long postId) {
-        return ResponseEntity.ok().body(postService.getDetail(postId));
-    }
 
     @Operation(summary = "키워드 게시글 검색")
     @GetMapping("/posts/search")
