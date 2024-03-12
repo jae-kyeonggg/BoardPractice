@@ -23,4 +23,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByOrderByCreatedAtAsc();
 
     List<Post> findByUserId(Long userId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Post p SET p.likes = p.likes + 1 WHERE p.id = :postId")
+    void increaseLikesByPostId(@Param("postId") Long postId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Post p SET p.dislikes = p.dislikes + 1 WHERE p.id = :postId")
+    void increaseDislikesByPostId(@Param("postId") Long postId);
 }
