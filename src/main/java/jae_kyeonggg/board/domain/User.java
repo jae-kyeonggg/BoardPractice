@@ -15,6 +15,7 @@ import java.util.List;
 public class User extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
     @Column(unique = true) @Email
     private String email;
@@ -29,16 +30,6 @@ public class User extends BaseTimeEntity {
     public void edit(String name, String nickname) {
         this.name = name;
         this.nickname = nickname;
-    }
-
-    public User updateNickName(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public User updateName(String name) {
-        this.name = name;
-        return this;
     }
 
     public void setRoles(List<Authority> role) {
