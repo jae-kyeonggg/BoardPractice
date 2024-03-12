@@ -5,6 +5,7 @@ import jae_kyeonggg.board.domain.Like;
 import jae_kyeonggg.board.domain.Post;
 import jae_kyeonggg.board.domain.User;
 import jae_kyeonggg.board.domain.dto.info.LikeOrDislikePostInfo;
+import jae_kyeonggg.board.domain.dto.response.LikeOrDislikePostResponse;
 import jae_kyeonggg.board.repository.DislikeRepository;
 import jae_kyeonggg.board.repository.LikeRepository;
 import jae_kyeonggg.board.repository.PostRepository;
@@ -23,7 +24,7 @@ public class LikeService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public void like(LikeOrDislikePostInfo likeOrDislikePostInfo) throws IllegalAccessException {
+    public LikeOrDislikePostResponse like(LikeOrDislikePostInfo likeOrDislikePostInfo) throws IllegalAccessException {
         User user = userRepository.findById(likeOrDislikePostInfo.getUserId()).orElseThrow(IllegalArgumentException::new);
         Post post = postRepository.findById(likeOrDislikePostInfo.getPostId()).orElseThrow(IllegalArgumentException::new);
         Optional<Like> optionalLike = likeRepository.findByUserAndPost(user, post);
@@ -37,9 +38,16 @@ public class LikeService {
         } else {
             throw new IllegalAccessException("이미 추천한 게시글입니다.");
         }
+        LikeOrDislikePostResponse response = LikeOrDislikePostResponse.builder()
+                .userId(likeOrDislikePostInfo.getUserId())
+                .postId(likeOrDislikePostInfo.getPostId())
+                .likes(post.getLikes() + 1)
+                .dislikes(post.getDislikes())
+                .build();
+        return response;
     }
 
-    public void dislike(LikeOrDislikePostInfo likeOrDislikePostInfo) throws IllegalAccessException {
+    public LikeOrDislikePostResponse dislike(LikeOrDislikePostInfo likeOrDislikePostInfo) throws IllegalAccessException {
         User user = userRepository.findById(likeOrDislikePostInfo.getUserId()).orElseThrow(IllegalArgumentException::new);
         Post post = postRepository.findById(likeOrDislikePostInfo.getPostId()).orElseThrow(IllegalArgumentException::new);
         Optional<Dislike> optionalDislike = dislikeRepository.findByUserAndPost(user, post);
@@ -53,5 +61,12 @@ public class LikeService {
         } else {
             throw new IllegalAccessException("이미 비추천한 게시글입니다.");
         }
+        LikeOrDislikePostResponse response = LikeOrDislikePostResponse.builder()
+                .userId(likeOrDislikePostInfo.getUserId())
+                .postId(likeOrDislikePostInfo.getPostId())
+                .likes(post.getLikes())
+                .dislikes(post.getDislikes() + 1)
+                .build();
+        return response;
     }
 }
