@@ -8,13 +8,72 @@
 <a th:href="@{/home}">home</a>
 <h1>상세정보</h1>
 <div>
+    <input type="hidden" id="userId" name="userId" th:value="${userId}">
+    <input type="hidden" id="postId" name="postId" th:value="${postId}">
     <p>제목: <span th:text="${detail.title}"></span></p>
     <p>내용: <span th:text="${detail.content}"></span></p>
     <p>작성자: <span th:text="${detail.writer}"></span></p>
+    <p>추천: <span id="likeCount" th:text="${detail.likes}"></span></p>
+    <p>비추천: <span id="dislikeCount" th:text="${detail.dislikes}"></span></p>
     <p>조회수: <span th:text="${detail.views}"></span></p>
+    <button id="likeButton">추천</button>
+    <button id="dislikeButton">비추천</button>
     <br>
     <p>작성된 시간: <span th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
     <p>수정된 시간: <span th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
 </div>
+<script>
+    const $likeButton = document.querySelector("#likeButton");
+    const $dislikeButton = document.querySelector("#dislikeButton");
+    let liked = false;
+    const toggleLike = () => {
+        if (!liked) {
+            fetch("/posts/like", {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json; charset: UTF-8'
+                },
+                body: JSON.stringify({
+                    userId: document.querySelector('#userId').value,
+                    postId: document.querySelector('#postId').value
+                })
+            }).then(response => {
+                if (response.ok) {
+                    liked = true;
+                    alert('추천했습니다');
+                } else {
+                    alert('이미 추천한 게시글입니다.')
+                    console.error('추천에 실패하였습니다.');
+                }
+            }).catch(error => {
+                console.error('네트워크 에러:', error);
+            });
+        }
+    };
+    const toggleUnlike = () => {
+        fetch("/posts/dislike", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json; charset: UTF-8'
+            },
+            body: JSON.stringify({
+                userId: document.querySelector('#userId').value,
+                postId: document.querySelector('#postId').value
+            })
+        }).then(response => {
+            if (response.ok) {
+                liked = false;
+                alert('비추천했습니다.');
+            } else {
+                alert('이미 비추천한 게시글입니다.')
+                console.error('비추천에 실패하였습니다.');
+            }
+        }).catch(error => {
+            console.error('네트워크 에러:', error);
+        });
+    }
+    $likeButton.addEventListener("click", toggleLike);
+    $dislikeButton.addEventListener("click", toggleUnlike);
+</script>
 </body>
 </html>
