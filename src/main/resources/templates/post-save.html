@@ -21,14 +21,23 @@
     const $postButton = document.querySelector("#postButton")
     const data = event => {
         event.preventDefault();
+        const title = document.querySelector('#title').value.trim();
+        const content = document.querySelector('#content').value.trim();
+        if (!title) {
+            alert('제목을 입력하세요.');
+            return;
+        } else if (!content) {
+            alert('내용을 입력하세요.');
+            return;
+        }
         fetch("/posts/write", {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json; charset: UTF-8'
             },
             body: JSON.stringify({
-                title: document.querySelector('#title').value,
-                content: document.querySelector('#content').value,
+                title: title,
+                content: content,
                 writer: document.querySelector('#writer').value,
                 userId: document.querySelector('#userId').value
             })
