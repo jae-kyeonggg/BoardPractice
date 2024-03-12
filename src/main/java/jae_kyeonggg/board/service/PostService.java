@@ -56,6 +56,8 @@ public class PostService {
                 .content(post.getContent())
                 .writer(post.getWriter())
                 .views(post.getViews())
+                .likes(post.getLikes())
+                .dislikes(post.getDislikes())
                 .createdAt(Date.from(post.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()))
                 .updatedAt(Date.from(post.getUpdatedAt().atZone(ZoneId.systemDefault()).toInstant()))
                 .build();
