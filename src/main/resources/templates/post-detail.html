@@ -25,33 +25,14 @@
 <script>
     const $likeButton = document.querySelector("#likeButton");
     const $dislikeButton = document.querySelector("#dislikeButton");
-    let liked = false;
-    const toggleLike = () => {
-        if (!liked) {
-            fetch("/posts/like", {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json; charset: UTF-8'
-                },
-                body: JSON.stringify({
-                    userId: document.querySelector('#userId').value,
-                    postId: document.querySelector('#postId').value
-                })
-            }).then(response => {
-                if (response.ok) {
-                    liked = true;
-                    alert('추천했습니다');
-                } else {
-                    alert('이미 추천한 게시글입니다.')
-                    console.error('추천에 실패하였습니다.');
-                }
-            }).catch(error => {
-                console.error('네트워크 에러:', error);
-            });
-        }
-    };
-    const toggleUnlike = () => {
-        fetch("/posts/dislike", {
+    $likeButton.addEventListener("click", () => {
+        toggleLike(true);
+    });
+    $dislikeButton.addEventListener("click", () => {
+        toggleLike(false);
+    });
+    const toggleLike = (isLike) => {
+        fetch(isLike ? "/posts/like" : "/posts/dislike", {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json; charset: UTF-8'
@@ -62,18 +43,19 @@
             })
         }).then(response => {
             if (response.ok) {
-                liked = false;
-                alert('비추천했습니다.');
+                alert(isLike ? '추천했습니다.' : '비추천했습니다.');
+                return response.json();
             } else {
-                alert('이미 비추천한 게시글입니다.')
-                console.error('비추천에 실패하였습니다.');
+                alert(isLike ? '이미 추천한 게시글입니다.' : '이미 비추천한 게시글입니다.');
+                throw new Error('추천 또는 비추천에 실패하였습니다.');
             }
+        }).then(data => {
+            document.querySelector("#likeCount").textContent = data.likes
+            document.querySelector("#dislikeCount").textContent = data.dislikes;
         }).catch(error => {
-            console.error('네트워크 에러:', error);
+            console.error('에러:', error);
         });
-    }
-    $likeButton.addEventListener("click", toggleLike);
-    $dislikeButton.addEventListener("click", toggleUnlike);
+    };
 </script>
 </body>
 </html>
