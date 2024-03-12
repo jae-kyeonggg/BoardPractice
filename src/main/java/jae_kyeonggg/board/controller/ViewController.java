@@ -68,7 +68,9 @@ public class ViewController {
     }
 
     @GetMapping("/posts/{postId}")
-    public String postDetail(Model model, @PathVariable("postId") Long postId) {
+    public String postDetail(Model model, @PathVariable("postId") Long postId, @LoginUser SessionUser user) {
+        model.addAttribute("postId", postId);
+        model.addAttribute("userId", user.getUserId());
         model.addAttribute("detail", postService.getDetail(postId));
         return "post-detail";
     }
