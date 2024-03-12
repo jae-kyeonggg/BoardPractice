@@ -14,8 +14,6 @@ public class GetPostResponse {
     private String content;
     private String writer;
     private int views;
-    private int likes;
-    private int dislikes;
     private Date createdAt;
     private Date updatedAt;
 }
