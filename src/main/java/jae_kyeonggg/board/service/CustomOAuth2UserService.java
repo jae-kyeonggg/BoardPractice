@@ -38,7 +38,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, originAttributes);
-        User user = saveOrUpdate(attributes);
+        User user = signUp(attributes);
         String email = user.getEmail();
         List<Authority> authorities = authorityUtils.createAuthorities(email);
         user.setRoles(authorities);
@@ -48,12 +48,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return new CustomOAuth2User(registrationId, originAttributes, authorities, email);
     }
 
-    private User saveOrUpdate(OAuthAttributes attributes) {
+    private User signUp(OAuthAttributes attributes) {
         String email = attributes.getEmail();
         User user = userRepository.findByEmail(email)
-                .map(entity -> entity
-                        .updateName(attributes.getName())
-                        .updateNickName(attributes.getNickname()))
                 .orElse(User.builder()
                         .email(email)
                         .name(attributes.getName())
