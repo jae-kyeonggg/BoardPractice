@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정</title>
+</head>
+<body>
+<a th:href="@{/home}">home</a>
+<h1>게시글 수정</h1>
+<form id="editForm" th:object="${detail}">
+    <input type="hidden" id="userId" name="userId" th:value="${user.getUserId()}">
+    <input type="hidden" id="postId" name="postId" th:value="*{userId}">
+    <label for="title">제목:</label><br>
+    <input type="text" id="title" name="title" th:field="*{title}"><br>
+    <label for="content">내용:</label><br>
+    <textarea id="content" name="content" th:field="*{content}"></textarea><br>
+    <label for="writer">작성자:</label><br>
+    <input type="text" id="writer" name="writer" th:field="*{writer}" readonly><br><br>
+    <button id="editButton" type="button" onclick="formToJson()">수정</button>
+</form>
+<script th:inline="javascript">
+    function formToJson() {
+        var userId = document.getElementById('userId').value;
+        var postId = document.getElementById('postId').value;
+        var form = new FormData(document.getElementById('editForm'));
+        var jsonData = {
+            userId: userId,
+            title: form.get('title'),
+            content: form.get('content')
+        };
+        var xhr = new XMLHttpRequest();
+        xhr.open('PATCH', '/posts/edit/' + postId);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                alert('수정이 성공했습니다.');
+                location.href = "/posts/" + postId;
+            } else {
+                alert('수정이 실패했습니다.');
+                console.error('요청이 실패하거나 오류가 발생했습니다.');
+                console.error('상태 코드:', xhr.status);
+            }
+        };
+        xhr.send(JSON.stringify(jsonData));
+    }
+</script>
+</body>
+</html>
