@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter @AllArgsConstructor
 public class EditPostInfo {
 
+    private Long userId;
     private String title;
     private String content;
 }

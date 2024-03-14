@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Getter @NoArgsConstructor
 public class EditPostRequest {
 
+    private Long userId;
     private String title;
     private String content;
 
     public EditPostInfo toDomain() {
-        return new EditPostInfo(title, content);
+        return new EditPostInfo(userId, title, content);
     }
 }
