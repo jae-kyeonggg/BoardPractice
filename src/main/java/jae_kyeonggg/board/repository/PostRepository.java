@@ -1,6 +1,8 @@
 package jae_kyeonggg.board.repository;
 
 import jae_kyeonggg.board.domain.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +31,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Modifying
     @Query("UPDATE Post p SET p.dislikes = p.dislikes + 1 WHERE p.id = :postId")
     void increaseDislikesByPostId(@Param("postId") Long postId);
+
+    Page<Post> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+    Page<Post> findAllByOrderByCreatedAtAsc(Pageable pageable);
 }
