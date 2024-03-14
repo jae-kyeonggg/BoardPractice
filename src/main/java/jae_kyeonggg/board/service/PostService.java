@@ -58,6 +58,7 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(IllegalArgumentException::new);
         GetPostResponse response = GetPostResponse.builder()
                 .id(postId)
+                .userId(post.getUserId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .writer(post.getWriter())

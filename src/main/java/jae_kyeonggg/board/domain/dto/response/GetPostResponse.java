@@ -10,6 +10,7 @@ import java.util.Date;
 public class GetPostResponse {
 
     private Long id;
+    private Long userId;
     private String title;
     private String content;
     private String writer;
