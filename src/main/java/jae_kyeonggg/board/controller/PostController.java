@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import jae_kyeonggg.board.domain.Post;
 import jae_kyeonggg.board.domain.dto.request.EditPostRequest;
 import jae_kyeonggg.board.domain.dto.request.SavePostRequest;
-import jae_kyeonggg.board.domain.dto.response.EditPostResponse;
 import jae_kyeonggg.board.service.PostService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +27,10 @@ public class PostController {
 
     @Operation(summary = "게시글 수정")
     @PatchMapping("/posts/edit/{id}")
-    public ResponseEntity<EditPostResponse> edit(@PathVariable(name = "id") Long postId, @RequestBody EditPostRequest request) {
-        return ResponseEntity.ok().body(postService.edit(postId, request.toDomain()));
+    public String edit(@PathVariable(name = "id") Long postId, @RequestBody EditPostRequest request) {
+        postService.edit(postId, request.toDomain());
+        return "redirect:/posts/" + postId;
     }
-
 
     @Operation(summary = "키워드 게시글 검색")
     @GetMapping("/posts/search")

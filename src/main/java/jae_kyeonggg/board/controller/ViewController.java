@@ -81,4 +81,11 @@ public class ViewController {
         model.addAttribute("posts", postService.findByUserId(user.getUserId()));
         return "post-writer";
     }
+
+    @GetMapping("/posts/edit")
+    public String editPost(Model model, @RequestParam(value = "postId") Long postId, @LoginUser SessionUser user) {
+        model.addAttribute("user", user);
+        model.addAttribute("detail", postService.getDetail(postId));
+        return "edit-post";
+    }
 }
