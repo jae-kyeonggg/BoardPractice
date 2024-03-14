@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -49,13 +50,18 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private User signUp(OAuthAttributes attributes) {
-        String email = attributes.getEmail();
-        User user = userRepository.findByEmail(email)
-                .orElse(User.builder()
-                        .email(email)
-                        .name(attributes.getName())
-                        .nickname(attributes.getNickname() == null ? attributes.getEmail() : attributes.getNickname())  //닉네임이 없는 사용자는 가입 시 닉네임이 이메일로 대체되게 함
-                        .build());
-        return userRepository.save(user);
+        Optional<String> optionalEmail = Optional.ofNullable(attributes.getEmail());
+        if (optionalEmail.isPresent()) {
+            String email = optionalEmail.get();
+            User user = userRepository.findByEmail(email)
+                    .orElse(User.builder()
+                            .email(email)
+                            .name(attributes.getName())
+                            .nickname(attributes.getNickname() == null ? attributes.getEmail() : attributes.getNickname())  //닉네임이 없는 사용자는 가입 시 닉네임이 이메일로 대체되게 함
+                            .build());
+            return userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("이메일 정보가 존재하지 않습니다.");
+        }
     }
 }
