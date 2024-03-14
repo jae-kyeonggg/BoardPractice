@@ -50,8 +50,8 @@ public class ViewController {
     }
 
     @GetMapping("/posts")
-    public String postsList(Model model, @RequestParam(value = "descending", defaultValue = "true") Boolean descending) {
-        model.addAttribute("posts", postService.findAll(descending));
+    public String postsListPaged(Model model, @RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "descending", defaultValue = "true") Boolean descending) {
+        model.addAttribute("paging", postService.findAllPaged(page, descending));
         return "post-list";
     }
 

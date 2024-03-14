@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>글 목록</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        table {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        td, tr, th {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<a th:href="@{/home}">home</a>
+<a th:href="@{/home}" style="margin-left: 20px;">home</a>
 <br>
 <h1>Posts</h1>
-<div th:if="${posts.size() == 0}">
+<div th:if="${paging.isEmpty()}">
     <p>아무 글도 없습니다.</p>
 </div>
-<div th:if="${posts.size() != 0}">
-    <table>
+<div th:if="${!paging.isEmpty()}">
+    <table border="1">
         <thead>
         <tr>
             <th>번호</th>
@@ -24,7 +34,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="post : ${posts}">
+        <tr th:each="post, loop: ${paging}">
             <td th:text="${post.id}"></td>
             <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
             <td th:text="${post.likes}"></td>
@@ -34,6 +44,42 @@
         </tr>
         </tbody>
     </table>
+    <div th:if="${!paging.isEmpty()}">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${!paging.hasPrevious()} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${0}|}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">First</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number - 1}|}">
+                        <span aria-hidden="true">&lt;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(0, paging.totalPages - 1)}" th:classappend="${page == paging.number} ? 'active'" class="page-item">
+                    <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number + 1}|}">
+                        <span aria-hidden="true">&gt;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.size - 1}|}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Last</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </div>
 </body>
 </html>
