@@ -75,10 +75,6 @@ public class PostService {
         return postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
     }
 
-    public List<Post> findAll(Boolean descending) {
-        return descending ? postRepository.findAllByOrderByCreatedAtDesc() : postRepository.findAllByOrderByCreatedAtAsc();
-    }
-
     public List<Post> findByUserId(Long userId) {
         return postRepository.findByUserId(userId);
     }
