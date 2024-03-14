@@ -40,7 +40,7 @@
                 'Content-Type': 'application/json; charset: UTF-8'
             },
             body: JSON.stringify({
-                sessionUserId: document.querySelector('#sessionUserId').value,
+                userId: document.querySelector('#sessionUserId').value,
                 postId: document.querySelector('#postId').value
             })
         }).then(response => {
