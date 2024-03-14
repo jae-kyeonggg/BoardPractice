@@ -8,8 +8,9 @@
 <a th:href="@{/home}">home</a>
 <h1>상세정보</h1>
 <div>
-    <input type="hidden" id="userId" name="userId" th:value="${userId}">
+    <input type="hidden" id="sessionUserId" name="sessionUserId" th:value="${sessionUserId}">
     <input type="hidden" id="postId" name="postId" th:value="${postId}">
+    <input type="hidden" id="originUserId" name="originUserId" th:value="${detail.getUserId()}">
     <p>제목: <span th:text="${detail.title}"></span></p>
     <p>내용: <span th:text="${detail.content}"></span></p>
     <p>작성자: <span th:text="${detail.writer}"></span></p>
@@ -18,6 +19,7 @@
     <p>조회수: <span th:text="${detail.views}"></span></p>
     <button id="likeButton">추천</button>
     <button id="dislikeButton">비추천</button>
+    <button id="editButton" th:if="${sessionUserId eq detail.getUserId()}" th:onclick="|location.href='@{edit(postId=${postId})}'|" type="button">수정</button>
     <br>
     <p>작성된 시간: <span th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
     <p>수정된 시간: <span th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
@@ -38,7 +40,7 @@
                 'Content-Type': 'application/json; charset: UTF-8'
             },
             body: JSON.stringify({
-                userId: document.querySelector('#userId').value,
+                sessionUserId: document.querySelector('#sessionUserId').value,
                 postId: document.querySelector('#postId').value
             })
         }).then(response => {

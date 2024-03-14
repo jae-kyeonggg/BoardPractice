@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -33,18 +34,23 @@ public class PostService {
 
     @Transactional
     public EditPostResponse edit(Long postId, EditPostInfo editPostInfo) {
+        Long originUserId = editPostInfo.getUserId();
         Post foundPost = postRepository.findById(postId).orElseThrow(IllegalArgumentException::new);
-        foundPost.edit(editPostInfo.getTitle(), editPostInfo.getContent());
-        Post savedPost = postRepository.save(foundPost);
-        EditPostResponse response = EditPostResponse.builder()
-                .id(savedPost.getId())
-                .title(savedPost.getTitle())
-                .content(savedPost.getContent())
-                .writer(savedPost.getWriter())
-                .createdAt(savedPost.getCreatedAt())
-                .updatedAt(savedPost.getUpdatedAt())
-                .build();
-        return response;
+        if (Objects.equals(originUserId, foundPost.getUserId())) {
+            foundPost.edit(editPostInfo.getTitle(), editPostInfo.getContent());
+            Post savedPost = postRepository.save(foundPost);
+            EditPostResponse response = EditPostResponse.builder()
+                    .id(savedPost.getId())
+                    .title(savedPost.getTitle())
+                    .content(savedPost.getContent())
+                    .writer(savedPost.getWriter())
+                    .createdAt(savedPost.getCreatedAt())
+                    .updatedAt(savedPost.getUpdatedAt())
+                    .build();
+            return response;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public GetPostResponse getDetail(Long postId) {
