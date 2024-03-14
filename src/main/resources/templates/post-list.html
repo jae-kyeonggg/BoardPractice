@@ -15,24 +15,22 @@
     <table>
         <thead>
         <tr>
-            <th>id</th>
+            <th>번호</th>
             <th>제목</th>
-            <th>내용</th>
-            <th>작성자</th>
             <th>추천</th>
             <th>비추천</th>
             <th>조회수</th>
+            <th>작성자</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="post : ${posts}">
             <td th:text="${post.id}"></td>
             <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
-            <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.content}"></a></td>
-            <td><a th:href="@{/posts/filter(writer=${post.writer})}" th:text="${post.writer}"></a></td>
             <td th:text="${post.likes}"></td>
             <td th:text="${post.dislikes}"></td>
             <td th:text="${post.views}"></td>
+            <td><a th:href="@{/posts/filter(writer=${post.writer})}" th:text="${post.writer}"></a></td>
         </tr>
         </tbody>
     </table>

@@ -64,7 +64,7 @@ public class ViewController {
     @GetMapping("/mypage/edit")
     public String editProfile(Model model, @LoginUser SessionUser user) {
         model.addAttribute("user", user);
-        return "edit";
+        return "edit-profile";
     }
 
     @GetMapping("/posts/{postId}")
