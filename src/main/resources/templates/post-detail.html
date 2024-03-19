@@ -23,10 +23,35 @@
     <br>
     <p>작성된 시간: <span th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
     <p>수정된 시간: <span th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+
+    <form id="commentForm">
+        <textarea id="commentContent" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
+        <br>
+        <button type="submit" id="writeCommentButton">댓글 작성</button>
+    </form>
+    <div th:if="${!comments.isEmpty()}">
+        <table>
+            <thead>
+            <tr>
+                <th>내용</th>
+                <th>작성자</th>
+                <th>작성 시간</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comment : ${comments}">
+                <td><span th:text="${comment.content}"></span></td>
+                <td><span th:text="${comment.getUser().getName()}"></span></td>
+                <td><span th:text="${#temporals.format(comment.getCreatedAt(), 'HH시 mm분 ss초, yyyy년 MM월 dd일')}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script>
     const $likeButton = document.querySelector("#likeButton");
     const $dislikeButton = document.querySelector("#dislikeButton");
+    const $writeCommentButton = document.querySelector("#writeCommentButton");
     $likeButton.addEventListener("click", () => {
         toggleLike(true);
     });
@@ -52,12 +77,41 @@
                 throw new Error('추천 또는 비추천에 실패하였습니다.');
             }
         }).then(data => {
-            document.querySelector("#likeCount").textContent = data.likes
+            document.querySelector("#likeCount").textContent = data.likes;
             document.querySelector("#dislikeCount").textContent = data.dislikes;
         }).catch(error => {
             console.error('에러:', error);
         });
     };
+    const commentData = event => {
+        event.preventDefault();
+        const content = document.querySelector('#commentContent').value.trim();
+        if (!content) {
+            alert('내용을 입력하세요.');
+            return;
+        }
+        fetch("/write-comment", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json; charset: UTF-8'
+            },
+            body: JSON.stringify({
+                userId: document.querySelector('#sessionUserId').value,
+                postId: document.querySelector('#postId').value,
+                content: content
+            })
+        }).then(response => {
+            if (response.ok) {
+                alert('댓글이 등록되었습니다.');
+                location.reload();
+            } else {
+                console.error('댓글 등록에 실패하였습니다.');
+            }
+        }).catch(error => {
+            console.error('네트워크 에러:', error);
+        });
+    }
+    $writeCommentButton.addEventListener("click", commentData);
 </script>
 </body>
 </html>

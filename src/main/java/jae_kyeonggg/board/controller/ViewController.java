@@ -3,6 +3,7 @@ package jae_kyeonggg.board.controller;
 import jae_kyeonggg.board.config.oauth.LoginUser;
 import jae_kyeonggg.board.config.oauth.dto.SessionUser;
 import jae_kyeonggg.board.domain.Post;
+import jae_kyeonggg.board.service.CommentService;
 import jae_kyeonggg.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ViewController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
     @GetMapping("/login")
     public String login() {
@@ -72,6 +74,7 @@ public class ViewController {
         model.addAttribute("postId", postId);
         model.addAttribute("sessionUserId", user.getUserId());
         model.addAttribute("detail", postService.getDetail(postId));
+        model.addAttribute("comments", commentService.getAllComments(postId));
         return "post-detail";
     }
 
